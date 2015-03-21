@@ -6,7 +6,8 @@ COLUMNHEIGHT = 12
 
 class BugDrop(object):
     def __init__(self):
-        self.gameGrid = [[0 for x in range(COLUMNHEIGHT)] for x in range(NUMGAMECOLUMNS)]      
+        self.gameGrid = [[0 for x in range(COLUMNHEIGHT + 2)] for x in range(NUMGAMECOLUMNS)]      #+3 for drawing purposes
+        self.status = 'Playing'
     
     
     def getColumnBase(self, column):
@@ -26,33 +27,42 @@ class BugDrop(object):
     def addToColumn(self, color, column):
         if column < NUMGAMECOLUMNS and column >= 0:
             if self.isAtMax(column):
-                raise IndexError('Column is full')
+                self.status = 'Lost'
             self.gameGrid[column][self.getColumnBase(column)] = color
         else:
             raise IndexError('Column does not exist')
                     
                     
     def dropBugSetInColumn(self, bugSet, column):
-        if bugSet.position == 'up':
+        if bugSet.position == 'upPosition':
             self.addToColumn(bugSet.bugColor1, column)
             self.addToColumn(bugSet.bugColor2, column)
-            self.addToColumn(bugSet.bugColor3, column)
+        if bugSet.position == 'downPosition':
+            self.addToColumn(bugSet.bugColor2, column)
+            self.addToColumn(bugSet.bugColor1, column)
+        if bugSet.position == 'leftPosition':
+            self.addToColumn(bugSet.bugColor1, column)
+            self.addToColumn(bugSet.bugColor2, column - 1)
+        if bugSet.position == 'rightPosition':
+            self.addToColumn(bugSet.bugColor1, column)
+            self.addToColumn(bugSet.bugColor2, column + 1)    
 
 
 class BugSet(object):
     def __init__(self):
         self.bugColor1 = random.randint(1, 5)
         self.bugColor2 = random.randint(1, 5)
-        self.bugColor3 = random.randint(1, 5)
-        self.position = 'up'
-        self.location = (-1, -1)
+        self.position = 'upPosition'
+        self.location = 2
         
         
     def setPosition(self, newPosition):
-        if newPosition == 'up' or newPosition == 'down' or newPosition == 'left' or newPosition == 'right':
+        if newPosition == 'upPosition' or newPosition == 'downPosition' or newPosition == 'leftPosition' or newPosition == 'rightPosition':
             self.position = newPosition
         else:
             raise ValueError('Invalid position')
+    
+    
     
 
     
