@@ -9,25 +9,32 @@ class BugDropTest(unittest.TestCase):
     def testcanary(self):
         self.assertTrue(True)        
         
+    def testContentChangesColumnBase(self):
+        self.bugDrop.gameGrid[1][0] = 1
+        self.assertEquals(1, self.bugDrop.getColumnBase(1))    
+        
+    def testIsAtMaxOnMaxedBaseReturnsTrue(self):
+        self.bugDrop.gameGrid[1][11] = 1       #GAMEHEIGHT - 1
+        self.assertTrue(self.bugDrop.isAtMax(1))        
+    
+    def testIsAtMaxOnLowBaseReturnsFalse(self):
+        self.bugDrop.gameGrid[1][3] = 1
+        self.assertFalse(self.bugDrop.isAtMax(1))    
+        
     def testAddToColumnChangesGameGrid(self):
         self.bugDrop.addToColumn(1, 0)
         self.assertEquals(1, self.bugDrop.gameGrid[0][0])        
     
     def testAddToColumnForInvalidColumnRaisesException(self):
-        self.assertRaises(IndexError, self.bugDrop.addToColumn, 1, -1)       
+        self.assertRaises(IndexError, self.bugDrop.addToColumn, 1, -1) 
         
-    def testIsAtMaxOnMaxedBaseReturnsTrue(self):
-        self.bugDrop.base[0] = 11       #GAMEHEIGHT - 1
-        self.assertTrue(self.bugDrop.isAtMax(0))        
-    
-    def testIsAtMaxOnLowBaseReturnsFalse(self):
-        self.bugDrop.base[0] = 0
-        self.assertFalse(self.bugDrop.isAtMax(0))
+    def testAddToColumnForMaxedColumnRaisesException(self):
+        self.bugDrop.gameGrid[1][11] = 1
+        self.assertRaises(IndexError, self.bugDrop.addToColumn, 1, -1)       
     
     def testAddToColumnIncreasesBase(self):
-        self.bugDrop.addToColumn(1, 0)
-        self.bugDrop.updateBase()
-        self.assertEquals(1, self.bugDrop.base[0])        
+        self.bugDrop.addToColumn(1, 1)
+        self.assertEquals(1, self.bugDrop.getColumnBase(1))        
         
     def testDropUpBugSetInColumnChangesGameGrid(self):
         self.bugDrop.dropBugSetInColumn(self.bugSet, 1)

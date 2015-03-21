@@ -7,27 +7,29 @@ COLUMNHEIGHT = 12
 class BugDrop(object):
     def __init__(self):
         self.gameGrid = [[0 for x in range(COLUMNHEIGHT)] for x in range(NUMGAMECOLUMNS)]      
-        self.base = [0 for x in range(NUMGAMECOLUMNS)]
     
     
-    def addToColumn(self, color, column):
-        if column < NUMGAMECOLUMNS and column >= 0:
-            self.gameGrid[column][self.base[column]] = color
-        else:
-            raise IndexError('Column does not exist')
+    def getColumnBase(self, column):
+        base = 0
+        for item in range(len(self.gameGrid[column])):
+            if self.gameGrid[column][item] != 0:
+                base = item + 1
+        return base
             
             
     def isAtMax(self, column):
-        if self.base[column] == COLUMNHEIGHT - 1:
+        if self.getColumnBase(column) == COLUMNHEIGHT:
             return True
         return False
+                
         
-    
-    def updateBase(self):                                       #change updatebase to get column base
-        for column in range(len(self.gameGrid)):
-            for row in range(len(self.gameGrid[column])):
-                if self.gameGrid[column][row] != 0:
-                    self.base[column] = row + 1
+    def addToColumn(self, color, column):
+        if column < NUMGAMECOLUMNS and column >= 0:
+            if self.isAtMax(column):
+                raise IndexError('Column is full')
+            self.gameGrid[column][self.getColumnBase(column)] = color
+        else:
+            raise IndexError('Column does not exist')
                     
                     
     def dropBugSetInColumn(self, bugSet, column):
