@@ -6,8 +6,9 @@ COLUMNHEIGHT = 12
 
 class BugDrop(object):
     def __init__(self):
-        self.gameGrid = [[0 for x in range(COLUMNHEIGHT + 2)] for x in range(NUMGAMECOLUMNS)]      #+3 for drawing purposes
+        self.gameGrid = [[0 for x in range(COLUMNHEIGHT + 2)] for x in range(NUMGAMECOLUMNS)]      #+2 for drawing purposes
         self.status = 'Playing'
+        self.colorMatchGrid = [[0 for x in range(COLUMNHEIGHT)] for x in range(NUMGAMECOLUMNS)]
     
     
     def getColumnBase(self, column):
@@ -29,8 +30,6 @@ class BugDrop(object):
             if self.isAtMax(column):
                 self.status = 'Lost'
             self.gameGrid[column][self.getColumnBase(column)] = color
-        else:
-            raise IndexError('Column does not exist')
                     
                     
     def dropBugSetInColumn(self, bugSet, column):
@@ -45,7 +44,7 @@ class BugDrop(object):
             self.addToColumn(bugSet.bugColor2, column - 1)
         if bugSet.position == 'rightPosition':
             self.addToColumn(bugSet.bugColor1, column)
-            self.addToColumn(bugSet.bugColor2, column + 1)    
+            self.addToColumn(bugSet.bugColor2, column + 1)  
 
 
 class BugSet(object):
@@ -54,13 +53,7 @@ class BugSet(object):
         self.bugColor2 = random.randint(1, 5)
         self.position = 'upPosition'
         self.location = 2
-        
-        
-    def setPosition(self, newPosition):
-        if newPosition == 'upPosition' or newPosition == 'downPosition' or newPosition == 'leftPosition' or newPosition == 'rightPosition':
-            self.position = newPosition
-        else:
-            raise ValueError('Invalid position')
+
     
     
     

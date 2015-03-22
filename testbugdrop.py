@@ -25,8 +25,12 @@ class BugDropTest(unittest.TestCase):
         self.bugDrop.addToColumn(1, 0)
         self.assertEquals(1, self.bugDrop.gameGrid[0][0])        
     
-    def testAddToColumnForInvalidColumnRaisesException(self):
-        self.assertRaises(IndexError, self.bugDrop.addToColumn, 1, -1) 
+    def testAddToColumnForInvalidColumnDoesNothing(self):
+        self.bugDrop.addToColumn(1, -1)
+        total = 0
+        for x in range(6):
+            total += self.bugDrop.gameGrid[x][0]
+        self.assertEquals(0, total)  
         
     def testAddToColumnForMaxedColumnLosesGame(self):
         self.bugDrop.gameGrid[1][11] = 1
@@ -42,7 +46,7 @@ class BugDropTest(unittest.TestCase):
         self.assertEquals(self.bugDrop.gameGrid[1][1], self.bugSet.bugColor2)
         
     def testDropDownBugSetInColumnChangesGameGrid(self):
-        self.bugSet.setPosition('downPosition')
+        self.bugSet.position = 'downPosition'
         self.bugDrop.dropBugSetInColumn(self.bugSet, 1)
         self.assertEquals(self.bugDrop.gameGrid[1][1], self.bugSet.bugColor1)
         
@@ -52,14 +56,19 @@ class BugDropTest(unittest.TestCase):
         self.assertTrue('Lost', self.bugDrop.status)
         
     def testDropLeftBugSetInColumnChangesGameGrid(self):
-        self.bugSet.setPosition('leftPosition')
+        self.bugSet.position = 'leftPosition'
         self.bugDrop.dropBugSetInColumn(self.bugSet, 5)
         self.assertEquals(self.bugDrop.gameGrid[4][0], self.bugSet.bugColor2)
         
     def testDropRightBugSetInColumnChangesGameGrid(self):
-        self.bugSet.setPosition('rightPosition')
+        self.bugSet.position = 'rightPosition'
         self.bugDrop.dropBugSetInColumn(self.bugSet, 3)
         self.assertEquals(self.bugDrop.gameGrid[4][0], self.bugSet.bugColor2)
+        
+    def testDropInvalidPositionBugSetInColumnDoesNothing(self):
+        self.bugSet.position = 'blah'
+        self.bugDrop.dropBugSetInColumn(self.bugSet, 0)
+        self.assertEquals(0, self.bugDrop.gameGrid[0][0])
         
         
 class BugSetTest(unittest.TestCase):
@@ -72,13 +81,6 @@ class BugSetTest(unittest.TestCase):
     def testInitialBugSetCreatesRandomSets(self):
         random = BugSet()
         self.assertTrue(self.bugSet != random)
-        
-    def testSetPositionChangesPositionForValidValue(self):
-        self.bugSet.setPosition('downPosition')
-        self.assertEquals('downPosition', self.bugSet.position)
-        
-    def testSetPositionThrowsErrorsForInvalidPositionValue(self):
-        self.assertRaises(ValueError, self.bugSet.setPosition, 'random')
 
         
 if __name__ == '__main__':
