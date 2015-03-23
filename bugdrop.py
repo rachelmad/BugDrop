@@ -46,29 +46,27 @@ class BugDrop(object):
             self.add_to_column(bug_set.bug_color2, column + 1)
         
             
-    def recursive_check_colors(self, column, row, count, passed):
+    def recursive_check_colors(self, column, row, similar_bugs, passed):
         passed[column][row] = 1
         if self.game_grid[column][row] == self.game_grid[column + 1][row] and passed[column + 1][row] == 0 and column < NUM_GAME_COLUMNS - 2:
-            count = self.recursive_check_colors(column + 1, row, count + 1, passed)
+            similar_bugs.append([column + 1, row])
+            self.recursive_check_colors(column + 1, row, similar_bugs, passed)
         if self.game_grid[column][row] == self.game_grid[column][row - 1] and passed[column][row - 1] == 0 and row > 0:
-            count = self.recursive_check_colors(column, row - 1, count + 1, passed)
+            similar_bugs.append([column, row - 1])
+            self.recursive_check_colors(column, row - 1, similar_bugs, passed)
         if self.game_grid[column][row] == self.game_grid[column - 1][row] and passed[column - 1][row] == 0 and column > 0:
-            count = self.recursive_check_colors(column - 1, row, count + 1, passed)
+            similar_bugs.append([column - 1, row])
+            self.recursive_check_colors(column - 1, row, similar_bugs, passed)
         if self.game_grid[column][row] == self.game_grid[column][row + 1] and passed[column][row + 1] == 0 and row < COLUMN_HEIGHT - 2:
-            count = self.recursive_check_colors(column, row + 1, count + 1, passed)           
-        return count
+            similar_bugs.append([column, row + 1])
+            self.recursive_check_colors(column, row + 1, similar_bugs, passed)           
+        return similar_bugs
         
     
-    def count_adjacent_colors(self, column, row):
+    def get_similar_bugs(self, column, row):
         passed_cells = [[0 for x in range(COLUMN_HEIGHT)] for x in range(NUM_GAME_COLUMNS)]
-        return self.recursive_check_colors(column, row, 1, passed_cells)
+        return self.recursive_check_colors(column, row, [[column, row]], passed_cells)
         
-    
-    def is_poppable(self, column, row):
-        if self.count_adjacent_colors(column, row) >= 4 and self.game_grid[column][row] != 0:
-            return True
-        return False
-          
 
 
 class BugSet(object):
@@ -76,7 +74,8 @@ class BugSet(object):
         self.bug_color1 = random.randint(1, 5)
         self.bug_color2 = random.randint(1, 5)
         self.position = 'up_position'
-        self.location = 2
+
+    
 
     
     
