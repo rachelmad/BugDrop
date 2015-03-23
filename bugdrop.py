@@ -46,25 +46,22 @@ class BugDrop(object):
             self.add_to_column(bug_set.bug_color2, column + 1)
         
             
-    def recursive_series_check(self, column, row, series_count, passed):
-        if self.game_grid[column][row] == self.game_grid[column - 1][row] and (column, row) not in passed and column > 0:
-            passed.append((column, row))
-            series_count = self.recursive_series_check(column - 1, row, series_count + 1, passed)
-        if self.game_grid[column][row] == self.game_grid[column + 1][row] and (column, row) not in passed and column < NUM_GAME_COLUMNS - 2:
-            passed.append((column, row))
-            series_count = self.recursive_series_check(column + 1, row, series_count + 1, passed)
-        if self.game_grid[column][row] == self.game_grid[column][row - 1] and (column, row) not in passed and row > 0:
-            passed.append((column, row))
-            series_count = self.recursive_series_check(column, row - 1, series_count + 1, passed)
-        if self.game_grid[column][row] == self.game_grid[column][row + 1] and (column, row) not in passed and row > COLUMN_HEIGHT - 2:
-            passed.append((column, row))
-            series_count = self.recursive_series_check(column, row + 1, series_count + 1, passed)
-        return series_count
+    def recursive_series_check(self, column, row, count, passed):
+        passed[column][row] = 1
+        if self.game_grid[column][row] == self.game_grid[column + 1][row] and passed[column + 1][row] == 0 and column < NUM_GAME_COLUMNS - 2:
+            count = self.recursive_series_check(column + 1, row, count + 1, passed)
+        if self.game_grid[column][row] == self.game_grid[column][row - 1] and passed[column][row - 1] == 0 and row > 0:
+            count = self.recursive_series_check(column, row - 1, count + 1, passed)
+        if self.game_grid[column][row] == self.game_grid[column - 1][row] and passed[column - 1][row] == 0 and column > 0:
+            count = self.recursive_series_check(column - 1, row, count + 1, passed)
+        if self.game_grid[column][row] == self.game_grid[column][row + 1] and passed[column][row + 1] == 0 and row < COLUMN_HEIGHT - 2:
+            count = self.recursive_series_check(column, row + 1, count + 1, passed)           
+        return count
         
     
     def count_adjacent_colors(self, column, row):
-        passed_cells = []
-        return self.recursive_series_check(column, row, 0, passed_cells)
+        passed_cells = [[0 for x in range(COLUMN_HEIGHT)] for x in range(NUM_GAME_COLUMNS)]
+        return self.recursive_series_check(column, row, 1, passed_cells)
           
 
 
