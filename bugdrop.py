@@ -46,22 +46,28 @@ class BugDrop(object):
             self.add_to_column(bug_set.bug_color2, column + 1)
         
             
-    def recursive_series_check(self, column, row, count, passed):
+    def recursive_check_colors(self, column, row, count, passed):
         passed[column][row] = 1
         if self.game_grid[column][row] == self.game_grid[column + 1][row] and passed[column + 1][row] == 0 and column < NUM_GAME_COLUMNS - 2:
-            count = self.recursive_series_check(column + 1, row, count + 1, passed)
+            count = self.recursive_check_colors(column + 1, row, count + 1, passed)
         if self.game_grid[column][row] == self.game_grid[column][row - 1] and passed[column][row - 1] == 0 and row > 0:
-            count = self.recursive_series_check(column, row - 1, count + 1, passed)
+            count = self.recursive_check_colors(column, row - 1, count + 1, passed)
         if self.game_grid[column][row] == self.game_grid[column - 1][row] and passed[column - 1][row] == 0 and column > 0:
-            count = self.recursive_series_check(column - 1, row, count + 1, passed)
+            count = self.recursive_check_colors(column - 1, row, count + 1, passed)
         if self.game_grid[column][row] == self.game_grid[column][row + 1] and passed[column][row + 1] == 0 and row < COLUMN_HEIGHT - 2:
-            count = self.recursive_series_check(column, row + 1, count + 1, passed)           
+            count = self.recursive_check_colors(column, row + 1, count + 1, passed)           
         return count
         
     
     def count_adjacent_colors(self, column, row):
         passed_cells = [[0 for x in range(COLUMN_HEIGHT)] for x in range(NUM_GAME_COLUMNS)]
-        return self.recursive_series_check(column, row, 1, passed_cells)
+        return self.recursive_check_colors(column, row, 1, passed_cells)
+        
+    
+    def is_poppable(self, column, row):
+        if self.count_adjacent_colors(column, row) >= 4 and self.game_grid[column][row] != 0:
+            return True
+        return False
           
 
 

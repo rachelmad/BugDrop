@@ -104,6 +104,21 @@ class BugDropTest(unittest.TestCase):
         self.bug_drop.game_grid[4][2] = 1
         self.assertEquals(9, self.bug_drop.count_adjacent_colors(3, 1)) 
         
+    def test_is_poppable_for_no_adjacent_color_returns_false(self):
+        self.bug_drop.game_grid[2][0] = 1
+        self.assertEquals(False, self.bug_drop.is_poppable(2, 0))
+        
+    def test_is_poppable_for_0_cell_returns_false(self):
+        self.assertEquals(False, self.bug_drop.is_poppable(2, 0))
+        
+    def test_is_poppable_for_series_of_4_returns_true(self):
+        self.bug_drop.game_grid[3][0] = 1
+        self.bug_drop.game_grid[2][1] = 1
+        self.bug_drop.game_grid[3][1] = 1
+        self.bug_drop.game_grid[4][1] = 1
+        self.bug_drop.game_grid[3][2] = 1
+        self.assertEquals(True, self.bug_drop.is_poppable(3, 1))
+        
 class bug_setTest(unittest.TestCase):
     def setUp(self):
         self.bug_set = BugSet()
