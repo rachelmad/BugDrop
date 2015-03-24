@@ -104,6 +104,23 @@ class BugDropTest(unittest.TestCase):
         self.bug_drop.game_grid[4][2] = 1
         self.assertEquals(9, len(self.bug_drop.get_similar_bugs(3, 1))) 
     
+    def test_fall_bug_on_1_drops_to_bottom(self):
+        self.bug_drop.game_grid[2][1] = 1
+        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.assertEquals(1, self.bug_drop.game_grid[2][0])
+            
+    def test_fall_bug_in_middle_of_column_drops_to_bottom(self):
+        self.bug_drop.game_grid[2][3] = 1
+        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.assertEquals(1, self.bug_drop.game_grid[2][0])
+        
+    def test_fall_bug_for_2_nonconsecutive_bugs_drop_to_bottom(self):
+        self.bug_drop.game_grid[2][3] = 1
+        self.bug_drop.game_grid[2][6] = 1
+        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.assertEquals(1, self.bug_drop.game_grid[2][0])
+        self.assertEquals(1, self.bug_drop.game_grid[2][1])
+    
         
 class bug_setTest(unittest.TestCase):
     def setUp(self):

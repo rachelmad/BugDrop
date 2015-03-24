@@ -67,6 +67,15 @@ class BugDrop(object):
         passed_cells = [[0 for x in range(COLUMN_HEIGHT)] for x in range(NUM_GAME_COLUMNS)]
         return self.recursive_check_colors(column, row, [[column, row]], passed_cells)
         
+        
+    def fall_bug_in_column(self, column, row):
+        if row == 0:
+            return
+        while self.game_grid[column][row - 1] == 0 and self.game_grid[column][row] != 0:
+            self.game_grid[column][row - 1] = self.game_grid[column][row]
+        self.fall_bug_in_column(column, row - 1)
+        
+        
 
 
 class BugSet(object):
