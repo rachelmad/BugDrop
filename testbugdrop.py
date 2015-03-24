@@ -120,6 +120,18 @@ class BugDropTest(unittest.TestCase):
         self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
         self.assertEquals(1, self.bug_drop.game_grid[2][0])
         self.assertEquals(1, self.bug_drop.game_grid[2][1])
+        
+    def test_pop_bugs_for_1_changes_grid(self):
+        self.bug_drop.game_grid[2][3] = 1
+        self.bug_drop.pop_bugs([[2, 3]])
+        self.assertEquals(0, self.bug_drop.game_grid[2][3])
+        
+    def test_pop_bugs_for_multiple_changes_grid(self):
+        self.bug_drop.game_grid[2][3] = 1
+        self.bug_drop.game_grid[2][4]
+        self.bug_drop.pop_bugs([[2, 3]])
+        self.assertEquals(0, self.bug_drop.game_grid[2][3])
+        self.assertEquals(0, self.bug_drop.game_grid[2][4])
     
         
 class bug_setTest(unittest.TestCase):

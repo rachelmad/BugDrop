@@ -75,7 +75,9 @@ class BugDrop(object):
             self.game_grid[column][row - 1] = self.game_grid[column][row]
         self.fall_bug_in_column(column, row - 1)
         
-        
+    def pop_bugs(self, array):
+        for bug in array:
+            self.game_grid[bug[0]][bug[1]] = 0
 
 
 class BugSet(object):
