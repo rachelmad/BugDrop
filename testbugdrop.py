@@ -14,7 +14,7 @@ class BugDropTest(unittest.TestCase):
         self.assertEquals(1, self.bug_drop.get_column_base(1))    
         
     def test_is_at_max_on_maxed_base_returns_true(self):
-        self.bug_drop.game_grid[1][11] = 1       #GAMEHEIGHT - 1
+        self.bug_drop.game_grid[1][self.bug_drop.column_height - 1] = 1       
         self.assertTrue(self.bug_drop.is_at_max(1))        
     
     def test_is_at_max_on_low_base_returns_false(self):
@@ -106,18 +106,18 @@ class BugDropTest(unittest.TestCase):
     
     def test_fall_bug_on_1_drops_to_bottom(self):
         self.bug_drop.game_grid[2][1] = 1
-        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.bug_drop.fall_bug_in_column(2, self.bug_drop.column_height - 1)         
         self.assertEquals(1, self.bug_drop.game_grid[2][0])
             
     def test_fall_bug_in_middle_of_column_drops_to_bottom(self):
         self.bug_drop.game_grid[2][3] = 1
-        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.bug_drop.fall_bug_in_column(2, self.bug_drop.column_height - 1)         
         self.assertEquals(1, self.bug_drop.game_grid[2][0])
         
     def test_fall_bug_for_2_nonconsecutive_bugs_drop_to_bottom(self):
         self.bug_drop.game_grid[2][3] = 1
         self.bug_drop.game_grid[2][6] = 1
-        self.bug_drop.fall_bug_in_column(2, 11)         #COLUMN_HEIGHT - 1
+        self.bug_drop.fall_bug_in_column(2, self.bug_drop.column_height - 1)         
         self.assertEquals(1, self.bug_drop.game_grid[2][0])
         self.assertEquals(1, self.bug_drop.game_grid[2][1])
         
