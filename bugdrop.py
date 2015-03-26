@@ -84,16 +84,4 @@ class BugSet(object):
         self.bug_color1 = random.randint(1, 5)
         self.bug_color2 = random.randint(1, 5)
         self.position = 'up_position'
-
-
-
-
-                            # CHANGE GLOBAL VARIABLES!
-    
-
-    
-    
-    
-
-    
-        
+       
