@@ -43,12 +43,12 @@ class BugDropTest(unittest.TestCase):
         
     def test_drop_up_bug_set_in_column_changes_game_grid(self):
         self.bug_drop.drop_bug_set_in_column(self.bug_set, 1)
-        self.assertEquals(self.bug_drop.game_grid[1][1], self.bug_set.bug_color2)
+        self.assertEquals(self.bug_drop.game_grid[1][1], self.bug_set.bug2.color)
         
     def test_drop_down_bug_set_in_column_changes_game_grid(self):
         self.bug_set.position = 'down_position'
         self.bug_drop.drop_bug_set_in_column(self.bug_set, 1)
-        self.assertEquals(self.bug_drop.game_grid[1][1], self.bug_set.bug_color1)
+        self.assertEquals(self.bug_drop.game_grid[1][1], self.bug_set.bug1.color)
         
     def test_drop_vertical_bug_set_in_full_column_loses(self):
         self.bug_drop.game_grid[1][10] = 1
@@ -58,12 +58,12 @@ class BugDropTest(unittest.TestCase):
     def test_drop_left_bug_set_in_column_changes_game_grid(self):
         self.bug_set.position = 'left_position'
         self.bug_drop.drop_bug_set_in_column(self.bug_set, 5)
-        self.assertEquals(self.bug_drop.game_grid[4][0], self.bug_set.bug_color2)
+        self.assertEquals(self.bug_drop.game_grid[4][0], self.bug_set.bug2.color)
         
     def test_drop_right_bug_set_in_column_changes_game_grid(self):
         self.bug_set.position = 'right_position'
         self.bug_drop.drop_bug_set_in_column(self.bug_set, 3)
-        self.assertEquals(self.bug_drop.game_grid[4][0], self.bug_set.bug_color2)
+        self.assertEquals(self.bug_drop.game_grid[4][0], self.bug_set.bug2.color)
         
     def test_drop_invalid_position_bug_set_in_column_does_nothing(self):
         self.bug_set.position = 'blah'

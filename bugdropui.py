@@ -4,7 +4,7 @@ from bugdrop import *
 MAIN_WIDTH = 800
 MAIN_HEIGHT = 600
 
-WHITE = (255, 255, 255)
+WHITE = ( 255, 255, 255)
 
 def main():
     pygame.init()
@@ -22,3 +22,6 @@ class BugDropUI(object):
         
 if __name__ == '__main__':
     main()
+    
+    
+                    # LEARN ABOUT SPRITES!!!

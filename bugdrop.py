@@ -1,4 +1,4 @@
-import random
+import random, pygame
 
 class BugDrop(object):
     def __init__(self):
@@ -31,17 +31,17 @@ class BugDrop(object):
                     
     def drop_bug_set_in_column(self, bug_set, column):
         if bug_set.position == 'up_position':
-            self.add_to_column(bug_set.bug_color1, column)
-            self.add_to_column(bug_set.bug_color2, column)
+            self.add_to_column(bug_set.bug1.color, column)
+            self.add_to_column(bug_set.bug2.color, column)
         if bug_set.position == 'down_position':
-            self.add_to_column(bug_set.bug_color2, column)
-            self.add_to_column(bug_set.bug_color1, column)
+            self.add_to_column(bug_set.bug2.color, column)
+            self.add_to_column(bug_set.bug1.color, column)
         if bug_set.position == 'left_position':
-            self.add_to_column(bug_set.bug_color1, column)
-            self.add_to_column(bug_set.bug_color2, column - 1)
+            self.add_to_column(bug_set.bug1.color, column)
+            self.add_to_column(bug_set.bug2.color, column - 1)
         if bug_set.position == 'right_position':
-            self.add_to_column(bug_set.bug_color1, column)
-            self.add_to_column(bug_set.bug_color2, column + 1)
+            self.add_to_column(bug_set.bug1.color, column)
+            self.add_to_column(bug_set.bug2.color, column + 1)
         
             
     def recursive_check_colors(self, column, row, similar_bugs, passed):
@@ -81,7 +81,14 @@ class BugDrop(object):
 
 class BugSet(object):
     def __init__(self):
-        self.bug_color1 = random.randint(1, 5)
-        self.bug_color2 = random.randint(1, 5)
+        self.bug1 = Bug()
+        self.bug2 = Bug()
         self.position = 'up_position'
+        
+
+class Bug(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.color = random.randint(1, 5)
+        
        
