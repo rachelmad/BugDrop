@@ -3,6 +3,7 @@ from bugdrop import *
 
 MAIN_WIDTH = 800
 MAIN_HEIGHT = 600
+BUG_SIZE = 34
 
 WHITE = ( 255, 255, 255)
 
@@ -16,9 +17,15 @@ def main():
         pygame.display.update()
         pygame.time.Clock().tick(100)
 
+
 class BugDropUI(object):
     def __init__(self, width, height):
         self.main_frame = pygame.display.set_mode((width, height))
+     
+        
+class Bug(pygame.sprite.Sprite):
+    def __init__(self, color):
+        super().__init__(self)
         
 if __name__ == '__main__':
     main()
