@@ -14,15 +14,19 @@ def main():
     pygame.display.set_caption('Bug Drop Clone')
     
     while True:
-        ui.main_frame.fill(WHITE)
-        ui.make_walls()
-        ui.game_frame.draw(ui.main_frame)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        pygame.display.update()
-        pygame.time.Clock().tick(100)
+        play_game(ui)
+        
+        
+def play_game(ui):
+    ui.main_frame.fill(WHITE)
+    ui.make_walls()
+    ui.game_frame.draw(ui.main_frame)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    pygame.display.update()
+    pygame.time.Clock().tick(100)
 
 
 class BugDropUI(object):
