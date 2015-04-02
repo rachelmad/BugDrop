@@ -19,26 +19,8 @@ def main():
     pygame.display.set_caption('Bug Drop Clone')
     
     while True:
-        play_game(ui)
-        
-        
-def play_game(ui):
-    next_drop = ui.create_new_bugset()
+        ui.play_game()
     
-    while True:
-        ui.main_frame.fill(WHITE)
-        ui.make_walls()
-        ui.game_frame.draw(ui.main_frame)
-    
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        next_drop.draw(ui.main_frame)
-        pygame.display.update()
-        pygame.time.Clock().tick(100)
-    
-
 
 class BugDropUI(object):
     def __init__(self, width, height):
@@ -53,7 +35,24 @@ class BugDropUI(object):
         self.game_frame_height = BUG_SIZE * self.bugdrop.column_height
         self.top_left_position_x = (3 * MAIN_WIDTH / 4) - self.game_frame_width / 2
         self.top_left_position_y = BUG_SIZE * 3
-        
+       
+       
+    def play_game(self):
+        next_drop = self.create_new_bugset()
+    
+        while True:
+            self.main_frame.fill(WHITE)
+            self.make_walls()
+            self.game_frame.draw(ui.main_frame)
+    
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            next_drop.draw(ui.main_frame)
+            pygame.display.update()
+            pygame.time.Clock().tick(100)
+             
         
     def make_walls(self):        
         left_wall = Wall(5, self.game_frame_height)
